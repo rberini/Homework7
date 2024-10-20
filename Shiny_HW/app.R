@@ -36,8 +36,8 @@ ui <- fluidPage(
         "College Degree" = "college"
       )),
       h2("Select a Sample Size"),
+      #Put your slider for sample size here. Give this an ID of corr_n.
       sliderInput("corr_n", label = "", min = 20, max = 500, value = 20),
-     #Put your slider for sample size here. Give this an ID of corr_n.
       actionButton("corr_sample", "Get a Sample!")
     ),
     mainPanel(
@@ -143,8 +143,6 @@ server <- function(input, output, session) {
                       size = input$corr_n, 
                       replace = TRUE, 
                       prob = subsetted_data$PWGTP/sum(subsetted_data$PWGTP))
-
-    }) 
            
       #Update the sample_corr reactive value object
       #the corr_data argument should be updated to be the subsetted_data[index,]
@@ -155,6 +153,7 @@ server <- function(input, output, session) {
     
     sample_corr$corr_truth <- cor(sample_corr$corr_data |> select(corr_vars))[1,2]
 
+    }) 
     
     #Create a renderPlot() object to output a scatter plot
     output$corr_scatter <- renderPlot({
